@@ -2,123 +2,473 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Avalon Minecraft Server</title>
-    <style>
-        body, html {
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-            height: 100%;
-            background: #f4f4f9;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .background {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: url('../assets/sky-background.png') no-repeat center center fixed;
-            background-size: cover;
-            pointer-events: none;
-            z-index: -1;
-        }
-        .container {
-            text-align: center;
-            background: rgba(255, 255, 255, 0.9);
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            max-width: 600px;
-        }
-        h1 {
-            font-size: 2.5em;
-            margin-bottom: 20px;
-            color: #333;
-        }
-        p {
-            font-size: 1.1em;
-            margin: 10px 0;
-            color: #666;
-        }
-        .button {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: #007BFF;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 5px;
-            margin-top: 20px;
-            transition: background-color 0.3s ease;
-        }
-        .button:hover {
-            background-color: #0056b3;
-        }
-        .cloud {
-            position: absolute;
-            width: 100px;
-            height: 50px;
-            background: url('../assets/cloud.png') no-repeat center center;
-            background-size: cover;
-            border-radius: 50%;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            animation: moveCloud 10s infinite linear;
-        }
-        .cloud:nth-child(2) {
-            animation-delay: 2s;
-        }
-        .cloud:nth-child(3) {
-            animation-delay: 4s;
-        }
-        @keyframes moveCloud {
-            0% {
-                left: -100px;
-                top: 0;
-            }
-            100% {
-                left: 100%;
-                top: 0;
-            }
-        }
-    </style>
-</head>
-<body>
-    <div class="background">
-        <div class="cloud"></div>
-        <div class="cloud"></div>
-        <div class="cloud"></div>
-    </div>
-    <div class="container">
-        <h1>Welcome to Avalon Minecraft Server</h1>
-        <p>Join us for epic adventures in the realm of gods and heroes!</p>
-        <p>Server Address: play.avalonmc.com</p>
-        <p>Current Players: <span id="players">0</span></p>
-        <a href="https://play.avalonmc.com" class="button">Join Server</a>
-    </div>
-    <script>
-        // Example script to fetch player count from a server status API
-        function fetchPlayerCount() {
-            fetch('https://api.avalonmc.com/player-count')
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById('players').innerText = data.count;
-                })
-                .catch(error => console.error('Error fetching player count:', error));
-        }
-        fetchPlayerCount();
 
-        // Moving Clouds with Mouse
-        document.addEventListener('mousemove', function(event) {
-            const clouds = document.querySelectorAll('.cloud');
-            clouds.forEach((cloud, index) => {
-                const dx = event.clientX - window.innerWidth / 2;
-                const dy = event.clientY - window.innerHeight / 2;
-                cloud.style.transform = `translate(${dx / 10}px, ${dy / 10}px)`;
-            });
-        });
-    </script>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>DIVINITY</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- =========================================
+         SKY BACKGROUND
+         Uses: ../assets/sky-background.png
+    ========================================== -->
+
+    <div class="background">
+        <img
+            src="../assets/sky-background.png"
+            class="sky-background"
+            id="skyBackground"
+            alt=""
+        >
+    </div>
+
+
+    <!-- =========================================
+         CLOUD LAYERS
+
+         Uses: ../assets/cloud.png
+
+         These are separated into layers so that
+         the JavaScript can move them at different
+         speeds when the mouse moves.
+    ========================================== -->
+
+    <!-- BACK CLOUDS -->
+
+    <div
+        class="cloud-layer cloud-layer-back"
+        id="cloudLayerBack"
+    >
+
+        <img
+            src="../assets/cloud.png"
+            class="cloud cloud-back cloud-1"
+            alt=""
+        >
+
+        <img
+            src="../assets/cloud.png"
+            class="cloud cloud-back cloud-2"
+            alt=""
+        >
+
+        <img
+            src="../assets/cloud.png"
+            class="cloud cloud-back cloud-3"
+            alt=""
+        >
+
+    </div>
+
+
+    <!-- MIDDLE CLOUDS -->
+
+    <div
+        class="cloud-layer cloud-layer-middle"
+        id="cloudLayerMiddle"
+    >
+
+        <img
+            src="../assets/cloud.png"
+            class="cloud cloud-middle cloud-4"
+            alt=""
+        >
+
+        <img
+            src="../assets/cloud.png"
+            class="cloud cloud-middle cloud-5"
+            alt=""
+        >
+
+        <img
+            src="../assets/cloud.png"
+            class="cloud cloud-middle cloud-6"
+            alt=""
+        >
+
+    </div>
+
+
+    <!-- =========================================
+         NAVIGATION
+    ========================================== -->
+
+    <header class="navbar">
+
+        <a
+            href="#home"
+            class="logo"
+        >
+            DIVINITY
+        </a>
+
+
+        <nav class="nav-links">
+
+            <a href="#home">
+                HOME
+            </a>
+
+            <a href="#gods">
+                GODS
+            </a>
+
+            <a href="#about">
+                ABOUT
+            </a>
+
+            <a href="#join">
+                JOIN
+            </a>
+
+        </nav>
+
+    </header>
+
+
+    <!-- =========================================
+         MAIN HERO
+    ========================================== -->
+
+    <main
+        class="hero"
+        id="home"
+    >
+
+
+        <!-- LEFT SIDE TEXT -->
+
+        <section class="hero-info">
+
+            <div class="small-title">
+                A WORLD ABOVE
+            </div>
+
+
+            <div class="info-line"></div>
+
+
+            <div class="hero-description">
+
+                <p>
+                    CHOOSE YOUR PATH.
+                </p>
+
+                <p>
+                    EARN THE FAVOUR
+                    OF THE GODS.
+                </p>
+
+                <p>
+                    FORGE YOUR LEGACY.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================
+             CENTRAL AREA
+
+             This is intentionally mostly empty.
+
+             Later we can add:
+             - sun.png
+             - light-rays.png
+             - heaven-door.png
+        ====================================== -->
+
+        <section class="centerpiece">
+
+            <div class="center-glow"></div>
+
+
+            <div class="center-placeholder">
+
+                <!--
+
+                    FUTURE HEAVENLY DOOR
+                    WILL GO HERE
+
+                -->
+
+            </div>
+
+
+            <button
+                class="enter-button"
+                id="enterButton"
+            >
+                ENTER HEAVEN
+            </button>
+
+
+            <div class="scroll-indicator">
+
+                <div class="mouse-icon">
+
+                    <div class="mouse-wheel"></div>
+
+                </div>
+
+                <span>
+                    SCROLL
+                </span>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================
+             JOIN SERVER
+        ====================================== -->
+
+        <section
+            class="join-panel"
+            id="join"
+        >
+
+            <div class="join-title">
+
+                JOIN NOW
+
+            </div>
+
+
+            <div class="join-line"></div>
+
+
+            <button
+                class="server-ip"
+                id="serverIP"
+                type="button"
+            >
+
+                <span>
+                    play.yourserver.net
+                </span>
+
+                <span class="copy-symbol">
+                    ⧉
+                </span>
+
+            </button>
+
+
+            <div
+                class="copy-message"
+                id="copyMessage"
+            >
+                CLICK TO COPY
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =========================================
+         FOREGROUND CLOUDS
+
+         These are above the hero content.
+
+         They will move the most with the mouse,
+         making them appear closest to the viewer.
+    ========================================== -->
+
+    <div
+        class="cloud-layer cloud-layer-front"
+        id="cloudLayerFront"
+    >
+
+        <img
+            src="../assets/cloud.png"
+            class="cloud cloud-front cloud-7"
+            alt=""
+        >
+
+        <img
+            src="../assets/cloud.png"
+            class="cloud cloud-front cloud-8"
+            alt=""
+        >
+
+        <img
+            src="../assets/cloud.png"
+            class="cloud cloud-front cloud-9"
+            alt=""
+        >
+
+    </div>
+
+
+    <!-- =========================================
+         GODS SECTION
+    ========================================== -->
+
+    <section
+        class="gods-section"
+        id="gods"
+    >
+
+        <div class="section-title">
+
+            <div class="title-line"></div>
+
+            <h1>
+                THE GODS
+            </h1>
+
+            <div class="title-line"></div>
+
+        </div>
+
+
+        <p class="section-subtitle">
+            WHICH POWER WILL YOU SERVE?
+        </p>
+
+
+        <div class="god-grid">
+
+
+            <article class="god-card">
+
+                <div class="god-art-placeholder">
+
+                    GOD ART
+
+                </div>
+
+
+                <h2>
+                    THE SUN
+                </h2>
+
+
+                <p>
+                    Power, honour and the strength
+                    to rise above all others.
+                </p>
+
+            </article>
+
+
+
+            <article class="god-card">
+
+                <div class="god-art-placeholder">
+
+                    GOD ART
+
+                </div>
+
+
+                <h2>
+                    THE MOON
+                </h2>
+
+
+                <p>
+                    Mystery, wisdom and secrets
+                    hidden beyond mortal sight.
+                </p>
+
+            </article>
+
+
+
+            <article class="god-card">
+
+                <div class="god-art-placeholder">
+
+                    GOD ART
+
+                </div>
+
+
+                <h2>
+                    THE STORM
+                </h2>
+
+
+                <p>
+                    Chaos, destruction and power
+                    strong enough to change destiny.
+                </p>
+
+            </article>
+
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================
+         ABOUT SECTION
+    ========================================== -->
+
+    <section
+        class="about-section"
+        id="about"
+    >
+
+        <h1>
+            YOUR LEGEND AWAITS
+        </h1>
+
+
+        <p>
+
+            Rise beyond the mortal realm.
+
+            Discover a world shaped by gods,
+            powerful alliances and the legends
+            created by those brave enough
+            to enter heaven.
+
+        </p>
+
+
+        <button
+            class="about-join-button"
+            type="button"
+            onclick="document.getElementById('join').scrollIntoView({ behavior: 'smooth' })"
+        >
+            BEGIN YOUR JOURNEY
+        </button>
+
+    </section>
+
+
+    <!-- =========================================
+         FOOTER
+    ========================================== -->
+
+    <footer>
+
+        <div class="footer-logo">
+            DIVINITY
+        </div>
+
+        <p>
+            © 2026 DIVINITY
+        </p>
+
+    </footer>
+
+
+    <script src="script.js"></script>
+
 </body>
 </html>
