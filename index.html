@@ -10,37 +10,34 @@
 
     <title>DIVINITY</title>
 
-    <link rel="stylesheet" href="style.css">
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
 </head>
 
 <body>
 
+
     <!-- =========================================
-         SKY BACKGROUND
-         Uses: ../assets/sky-background.png
+         BACKGROUND
     ========================================== -->
 
     <div class="background">
+
         <img
             src="../assets/sky-background.png"
             class="sky-background"
             id="skyBackground"
             alt=""
         >
+
     </div>
 
 
     <!-- =========================================
-         CLOUD LAYERS
-
-         Uses: ../assets/cloud.png
-
-         These are separated into layers so that
-         the JavaScript can move them at different
-         speeds when the mouse moves.
+         CLOUD LAYER - BACK
     ========================================== -->
-
-    <!-- BACK CLOUDS -->
 
     <div
         class="cloud-layer cloud-layer-back"
@@ -68,65 +65,74 @@
     </div>
 
 
-    <!-- MIDDLE CLOUDS -->
-
-    <div
-        class="cloud-layer cloud-layer-middle"
-        id="cloudLayerMiddle"
-    >
-
-        <img
-            src="../assets/cloud.png"
-            class="cloud cloud-middle cloud-4"
-            alt=""
-        >
-
-        <img
-            src="../assets/cloud.png"
-            class="cloud cloud-middle cloud-5"
-            alt=""
-        >
-
-        <img
-            src="../assets/cloud.png"
-            class="cloud cloud-middle cloud-6"
-            alt=""
-        >
-
-    </div>
-
-
     <!-- =========================================
-         NAVIGATION
+         TOP NAVIGATION
     ========================================== -->
 
-    <header class="navbar">
+    <header class="top-bar">
 
-        <a
-            href="#home"
-            class="logo"
-        >
+        <div class="site-logo">
             DIVINITY
-        </a>
+        </div>
 
 
-        <nav class="nav-links">
+        <nav class="tabs">
 
-            <a href="#home">
+
+            <!-- NORMAL TAB -->
+
+            <button
+                class="tab-button"
+                type="button"
+                data-scroll="home"
+            >
                 HOME
-            </a>
+            </button>
 
-            <a href="#gods">
-                GODS
-            </a>
 
-            <a href="#about">
-                ABOUT
-            </a>
+            <!-- POPUP TAB 1 -->
 
-            <a href="#join">
-                JOIN
-            </a>
+            <button
+                class="tab-button"
+                type="button"
+                data-popup="popupOne"
+            >
+                INFO
+            </button>
+
+
+            <!-- POPUP TAB 2 -->
+
+            <button
+                class="tab-button"
+                type="button"
+                data-popup="popupTwo"
+            >
+                SERVER
+            </button>
+
+
+            <!-- POPUP TAB 3 -->
+
+            <button
+                class="tab-button"
+                type="button"
+                data-popup="popupThree"
+            >
+                TIMES
+            </button>
+
+
+            <!-- NORMAL TAB -->
+
+            <button
+                class="tab-button"
+                type="button"
+                data-scroll="bottom"
+            >
+                MORE
+            </button>
+
 
         </nav>
 
@@ -134,7 +140,7 @@
 
 
     <!-- =========================================
-         MAIN HERO
+         MAIN PAGE
     ========================================== -->
 
     <main
@@ -143,146 +149,51 @@
     >
 
 
-        <!-- LEFT SIDE TEXT -->
-
-        <section class="hero-info">
-
-            <div class="small-title">
-                A WORLD ABOVE
-            </div>
-
-
-            <div class="info-line"></div>
-
-
-            <div class="hero-description">
-
-                <p>
-                    CHOOSE YOUR PATH.
-                </p>
-
-                <p>
-                    EARN THE FAVOUR
-                    OF THE GODS.
-                </p>
-
-                <p>
-                    FORGE YOUR LEGACY.
-                </p>
-
-            </div>
-
-        </section>
-
-
         <!-- =====================================
-             CENTRAL AREA
+             FUTURE SUN AND GATE AREA
 
-             This is intentionally mostly empty.
-
-             Later we can add:
-             - sun.png
-             - light-rays.png
-             - heaven-door.png
+             Later, the sun and heavenly gate
+             can be added inside this section.
         ====================================== -->
 
-        <section class="centerpiece">
-
-            <div class="center-glow"></div>
+        <div class="centerpiece">
 
 
-            <div class="center-placeholder">
+            <div
+                class="future-art"
+                id="futureArt"
+            >
 
                 <!--
 
-                    FUTURE HEAVENLY DOOR
-                    WILL GO HERE
+                    FUTURE PIXEL-ART SUN
+
+                    FUTURE PIXEL-ART HEAVENLY GATE
+
+                    These will be added later.
 
                 -->
 
             </div>
 
 
-            <button
-                class="enter-button"
-                id="enterButton"
-            >
-                ENTER HEAVEN
-            </button>
+            <!-- REQUIRED SCHOOL SERVER NOTICE -->
 
+            <div class="school-notice">
 
-            <div class="scroll-indicator">
-
-                <div class="mouse-icon">
-
-                    <div class="mouse-wheel"></div>
-
-                </div>
-
-                <span>
-                    SCROLL
-                </span>
-
-            </div>
-
-        </section>
-
-
-        <!-- =====================================
-             JOIN SERVER
-        ====================================== -->
-
-        <section
-            class="join-panel"
-            id="join"
-        >
-
-            <div class="join-title">
-
-                JOIN NOW
+                *THIS IS A SCHOOL SERVER. THIS IS NOT PUBLIC*
 
             </div>
 
 
-            <div class="join-line"></div>
+        </div>
 
-
-            <button
-                class="server-ip"
-                id="serverIP"
-                type="button"
-            >
-
-                <span>
-                    play.yourserver.net
-                </span>
-
-                <span class="copy-symbol">
-                    ⧉
-                </span>
-
-            </button>
-
-
-            <div
-                class="copy-message"
-                id="copyMessage"
-            >
-                CLICK TO COPY
-            </div>
-
-        </section>
 
     </main>
 
 
     <!-- =========================================
-         FOREGROUND CLOUDS
-
-         These are above the hero content.
-
-         They will move the most with the mouse,
-         making them appear closest to the viewer.
+         CLOUD LAYER - FRONT
     ========================================== -->
 
     <div
@@ -292,19 +203,19 @@
 
         <img
             src="../assets/cloud.png"
-            class="cloud cloud-front cloud-7"
+            class="cloud cloud-front cloud-4"
             alt=""
         >
 
         <img
             src="../assets/cloud.png"
-            class="cloud cloud-front cloud-8"
+            class="cloud cloud-front cloud-5"
             alt=""
         >
 
         <img
             src="../assets/cloud.png"
-            class="cloud cloud-front cloud-9"
+            class="cloud cloud-front cloud-6"
             alt=""
         >
 
@@ -312,160 +223,169 @@
 
 
     <!-- =========================================
-         GODS SECTION
+         EMPTY LOWER SECTION
+
+         You can add more content later.
     ========================================== -->
 
     <section
-        class="gods-section"
-        id="gods"
+        class="lower-section"
+        id="bottom"
     >
 
-        <div class="section-title">
-
-            <div class="title-line"></div>
-
-            <h1>
-                THE GODS
-            </h1>
-
-            <div class="title-line"></div>
-
-        </div>
-
-
-        <p class="section-subtitle">
-            WHICH POWER WILL YOU SERVE?
-        </p>
-
-
-        <div class="god-grid">
-
-
-            <article class="god-card">
-
-                <div class="god-art-placeholder">
-
-                    GOD ART
-
-                </div>
-
-
-                <h2>
-                    THE SUN
-                </h2>
-
-
-                <p>
-                    Power, honour and the strength
-                    to rise above all others.
-                </p>
-
-            </article>
-
-
-
-            <article class="god-card">
-
-                <div class="god-art-placeholder">
-
-                    GOD ART
-
-                </div>
-
-
-                <h2>
-                    THE MOON
-                </h2>
-
-
-                <p>
-                    Mystery, wisdom and secrets
-                    hidden beyond mortal sight.
-                </p>
-
-            </article>
-
-
-
-            <article class="god-card">
-
-                <div class="god-art-placeholder">
-
-                    GOD ART
-
-                </div>
-
-
-                <h2>
-                    THE STORM
-                </h2>
-
-
-                <p>
-                    Chaos, destruction and power
-                    strong enough to change destiny.
-                </p>
-
-            </article>
-
-
-        </div>
+        <!-- Add your own content here -->
 
     </section>
 
 
     <!-- =========================================
-         ABOUT SECTION
+         POPUP 1
     ========================================== -->
 
-    <section
-        class="about-section"
-        id="about"
+    <div
+        class="popup-overlay"
+        id="popupOne"
     >
 
-        <h1>
-            YOUR LEGEND AWAITS
-        </h1>
-
-
-        <p>
-
-            Rise beyond the mortal realm.
-
-            Discover a world shaped by gods,
-            powerful alliances and the legends
-            created by those brave enough
-            to enter heaven.
-
-        </p>
-
-
-        <button
-            class="about-join-button"
-            type="button"
-            onclick="document.getElementById('join').scrollIntoView({ behavior: 'smooth' })"
+        <div
+            class="popup-window"
+            role="dialog"
+            aria-modal="true"
         >
-            BEGIN YOUR JOURNEY
-        </button>
 
-    </section>
+
+            <div class="popup-top">
+
+                <div class="popup-title">
+
+                    INFO
+
+                </div>
+
+
+                <button
+                    class="popup-close"
+                    type="button"
+                    aria-label="Close popup"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <div class="popup-content">
+
+                <!--
+                    WRITE YOUR OWN CONTENT HERE
+                -->
+
+            </div>
+
+
+        </div>
+
+    </div>
 
 
     <!-- =========================================
-         FOOTER
+         POPUP 2
     ========================================== -->
 
-    <footer>
+    <div
+        class="popup-overlay"
+        id="popupTwo"
+    >
 
-        <div class="footer-logo">
-            DIVINITY
+        <div
+            class="popup-window"
+            role="dialog"
+            aria-modal="true"
+        >
+
+
+            <div class="popup-top">
+
+                <div class="popup-title">
+
+                    SERVER
+
+                </div>
+
+
+                <button
+                    class="popup-close"
+                    type="button"
+                    aria-label="Close popup"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <div class="popup-content">
+
+                <!--
+                    WRITE YOUR OWN CONTENT HERE
+                -->
+
+            </div>
+
+
         </div>
 
-        <p>
-            © 2026 DIVINITY
-        </p>
+    </div>
 
-    </footer>
+
+    <!-- =========================================
+         POPUP 3
+    ========================================== -->
+
+    <div
+        class="popup-overlay"
+        id="popupThree"
+    >
+
+        <div
+            class="popup-window"
+            role="dialog"
+            aria-modal="true"
+        >
+
+
+            <div class="popup-top">
+
+                <div class="popup-title">
+
+                    TIMES
+
+                </div>
+
+
+                <button
+                    class="popup-close"
+                    type="button"
+                    aria-label="Close popup"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <div class="popup-content">
+
+                <!--
+                    WRITE YOUR OWN CONTENT HERE
+                -->
+
+            </div>
+
+
+        </div>
+
+    </div>
 
 
     <script src="script.js"></script>
