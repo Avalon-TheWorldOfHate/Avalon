@@ -2,393 +2,843 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>DIVINITY</title>
 
-    <link
-        rel="stylesheet"
-        href="style.css"
-    >
+    <style>
+        /* =========================================================
+           RESET
+        ========================================================= */
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            min-height: 100vh;
+            overflow-x: hidden;
+            background: #77b9e8;
+            color: #ffffff;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        button {
+            font: inherit;
+        }
+
+
+        /* =========================================================
+           SKY BACKGROUND
+        ========================================================= */
+
+        .sky {
+            position: fixed;
+            inset: 0;
+            z-index: -20;
+            overflow: hidden;
+            background: #77b9e8;
+        }
+
+        .sky img {
+            position: absolute;
+            width: 110%;
+            height: 110%;
+            top: -5%;
+            left: -5%;
+            object-fit: cover;
+            transition: transform 0.25s ease-out;
+            will-change: transform;
+        }
+
+
+        /* =========================================================
+           CLOUDS
+        ========================================================= */
+
+        .cloud-layer {
+            position: fixed;
+            inset: -10%;
+            pointer-events: none;
+            transition: transform 0.2s ease-out;
+            will-change: transform;
+        }
+
+        .cloud-back-layer {
+            z-index: -10;
+        }
+
+        .cloud-front-layer {
+            z-index: 15;
+        }
+
+        .cloud {
+            position: absolute;
+            pointer-events: none;
+            user-select: none;
+            image-rendering: pixelated;
+        }
+
+        .cloud-1 {
+            width: 34vw;
+            min-width: 300px;
+            top: 8%;
+            left: -8%;
+            opacity: 0.55;
+            animation: drift-one 24s ease-in-out infinite;
+        }
+
+        .cloud-2 {
+            width: 42vw;
+            min-width: 380px;
+            top: 20%;
+            right: -14%;
+            opacity: 0.48;
+            animation: drift-two 30s ease-in-out infinite;
+        }
+
+        .cloud-3 {
+            width: 30vw;
+            min-width: 280px;
+            bottom: 14%;
+            left: 4%;
+            opacity: 0.5;
+            animation: drift-one 34s ease-in-out infinite reverse;
+        }
+
+        .cloud-4 {
+            width: 45vw;
+            min-width: 420px;
+            bottom: -12%;
+            left: -12%;
+            opacity: 0.92;
+            animation: drift-one 28s ease-in-out infinite;
+        }
+
+        .cloud-5 {
+            width: 52vw;
+            min-width: 450px;
+            bottom: -25%;
+            left: 27%;
+            opacity: 0.9;
+            animation: drift-two 36s ease-in-out infinite;
+        }
+
+        .cloud-6 {
+            width: 43vw;
+            min-width: 400px;
+            bottom: -13%;
+            right: -10%;
+            opacity: 0.92;
+            animation: drift-one 32s ease-in-out infinite reverse;
+        }
+
+        @keyframes drift-one {
+            0%, 100% {
+                transform: translate(0, 0);
+            }
+
+            50% {
+                transform: translate(60px, -18px);
+            }
+        }
+
+        @keyframes drift-two {
+            0%, 100% {
+                transform: translate(0, 0);
+            }
+
+            50% {
+                transform: translate(-70px, 22px);
+            }
+        }
+
+
+        /* =========================================================
+           NAVIGATION
+        ========================================================= */
+
+        .navbar {
+            position: fixed;
+            top: 28px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: min(94vw, 1250px);
+            z-index: 100;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 12px 16px 12px 24px;
+
+            border: 1px solid rgba(255, 255, 255, 0.28);
+            border-radius: 22px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(255, 255, 255, 0.18),
+                    rgba(255, 255, 255, 0.05)
+                );
+
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+
+            box-shadow:
+                0 20px 60px rgba(18, 71, 125, 0.18),
+                inset 0 1px 0 rgba(255, 255, 255, 0.25);
+        }
+
+        .logo {
+            color: white;
+            text-decoration: none;
+
+            font-size: 1rem;
+            font-weight: 800;
+            letter-spacing: 0.32em;
+
+            text-shadow:
+                0 2px 18px rgba(255, 255, 255, 0.55);
+        }
+
+        .tabs {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .tab {
+            border: 0;
+            border-radius: 14px;
+
+            padding: 11px 18px;
+
+            color: rgba(255, 255, 255, 0.88);
+
+            background: transparent;
+
+            cursor: pointer;
+
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+
+            transition:
+                background 0.2s ease,
+                color 0.2s ease,
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .tab:hover {
+            color: white;
+
+            background: rgba(255, 255, 255, 0.17);
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 8px 22px rgba(30, 80, 140, 0.15);
+        }
+
+        .tab.active {
+            color: #214d7b;
+
+            background:
+                rgba(255, 255, 255, 0.88);
+
+            box-shadow:
+                0 8px 25px rgba(255, 255, 255, 0.2);
+        }
+
+
+        /* =========================================================
+           MAIN HERO
+        ========================================================= */
+
+        .hero {
+            position: relative;
+            z-index: 5;
+
+            min-height: 100vh;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding:
+                120px
+                30px
+                120px;
+        }
+
+        /*
+            This is the reserved centre area.
+
+            The future pixel-art sun and heavenly gate
+            will be placed here later.
+        */
+
+        .future-centre {
+            position: relative;
+
+            width: min(70vw, 850px);
+            height: min(70vh, 760px);
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+
+            pointer-events: none;
+        }
+
+        /*
+            Very subtle focal glow only.
+
+            This is CSS, not the future sun asset.
+        */
+
+        .future-centre::before {
+            content: "";
+
+            position: absolute;
+
+            width: min(50vw, 600px);
+            height: min(50vw, 600px);
+
+            top: 10%;
+            left: 50%;
+
+            transform: translateX(-50%);
+
+            border-radius: 50%;
+
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(255, 255, 255, 0.28),
+                    rgba(255, 255, 255, 0.12) 35%,
+                    transparent 70%
+                );
+
+            filter: blur(25px);
+
+            opacity: 0.65;
+        }
+
+
+        /* =========================================================
+           SCHOOL NOTICE
+        ========================================================= */
+
+        .school-notice {
+            position: relative;
+            z-index: 3;
+
+            max-width: 90vw;
+
+            margin-bottom: 55px;
+
+            padding: 12px 24px;
+
+            color: #ff3f4c;
+
+            background: rgba(20, 30, 55, 0.16);
+
+            border: 1px solid rgba(255, 85, 95, 0.28);
+            border-radius: 999px;
+
+            backdrop-filter: blur(10px);
+
+            font-size: clamp(0.7rem, 1.1vw, 0.9rem);
+            font-weight: 800;
+            letter-spacing: 0.12em;
+
+            text-align: center;
+
+            text-shadow:
+                0 0 18px rgba(255, 40, 60, 0.5);
+        }
+
+
+        /* =========================================================
+           POPUPS
+        ========================================================= */
+
+        .modal {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 24px;
+
+            background: rgba(7, 20, 40, 0.42);
+
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+
+            opacity: 0;
+            visibility: hidden;
+
+            transition:
+                opacity 0.2s ease,
+                visibility 0.2s ease;
+        }
+
+        .modal.open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-card {
+            width: min(92vw, 760px);
+            min-height: min(60vh, 540px);
+
+            overflow: hidden;
+
+            border: 1px solid rgba(255, 255, 255, 0.28);
+            border-radius: 28px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(20, 53, 92, 0.92),
+                    rgba(8, 24, 50, 0.94)
+                );
+
+            box-shadow:
+                0 35px 100px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+
+            transform: translateY(25px) scale(0.97);
+
+            transition: transform 0.25s ease;
+        }
+
+        .modal.open .modal-card {
+            transform: translateY(0) scale(1);
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 22px 24px;
+
+            border-bottom:
+                1px solid rgba(255, 255, 255, 0.14);
+
+            background:
+                rgba(255, 255, 255, 0.06);
+        }
+
+        .modal-title {
+            font-size: 0.85rem;
+            font-weight: 800;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+        }
+
+        .close {
+            width: 38px;
+            height: 38px;
+
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            border-radius: 12px;
+
+            color: white;
+
+            background: rgba(255, 255, 255, 0.08);
+
+            cursor: pointer;
+
+            font-size: 1.25rem;
+
+            transition:
+                background 0.2s ease,
+                transform 0.2s ease;
+        }
+
+        .close:hover {
+            background: rgba(255, 80, 90, 0.75);
+            transform: rotate(90deg);
+        }
+
+        /*
+            Empty content areas.
+            Add your own text/content inside them.
+        */
+
+        .modal-content {
+            min-height: 400px;
+            padding: 30px;
+        }
+
+
+        /* =========================================================
+           MOBILE
+        ========================================================= */
+
+        @media (max-width: 760px) {
+            .navbar {
+                top: 15px;
+                flex-direction: column;
+                gap: 12px;
+                padding: 14px;
+                border-radius: 20px;
+            }
+
+            .logo {
+                font-size: 0.8rem;
+            }
+
+            .tabs {
+                width: 100%;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .tab {
+                padding: 8px 11px;
+                font-size: 0.6rem;
+            }
+
+            .hero {
+                padding-top: 150px;
+            }
+
+            .future-centre {
+                width: 95vw;
+                height: 65vh;
+            }
+
+            .school-notice {
+                margin-bottom: 25px;
+                border-radius: 18px;
+                line-height: 1.5;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
+    <!-- SKY -->
 
-    <!-- =========================================
-         BACKGROUND
-    ========================================== -->
-
-    <div class="background">
-
+    <div class="sky">
         <img
-            src="../assets/sky-background.png"
-            class="sky-background"
             id="skyBackground"
+            src="../assets/sky-background.png"
             alt=""
         >
-
     </div>
 
 
-    <!-- =========================================
-         CLOUD LAYER - BACK
-    ========================================== -->
+    <!-- BACK CLOUDS -->
 
     <div
-        class="cloud-layer cloud-layer-back"
-        id="cloudLayerBack"
+        class="cloud-layer cloud-back-layer"
+        id="backClouds"
     >
-
-        <img
-            src="../assets/cloud.png"
-            class="cloud cloud-back cloud-1"
-            alt=""
-        >
-
-        <img
-            src="../assets/cloud.png"
-            class="cloud cloud-back cloud-2"
-            alt=""
-        >
-
-        <img
-            src="../assets/cloud.png"
-            class="cloud cloud-back cloud-3"
-            alt=""
-        >
-
+        <img src="../assets/cloud.png" class="cloud cloud-1" alt="">
+        <img src="../assets/cloud.png" class="cloud cloud-2" alt="">
+        <img src="../assets/cloud.png" class="cloud cloud-3" alt="">
     </div>
 
 
-    <!-- =========================================
-         TOP NAVIGATION
-    ========================================== -->
+    <!-- NAVIGATION -->
 
-    <header class="top-bar">
+    <header class="navbar">
 
-        <div class="site-logo">
+        <a
+            href="#"
+            class="logo"
+        >
             DIVINITY
-        </div>
+        </a>
 
 
         <nav class="tabs">
 
-
-            <!-- NORMAL TAB -->
-
-            <button
-                class="tab-button"
-                type="button"
-                data-scroll="home"
-            >
+            <button class="tab active" type="button">
                 HOME
             </button>
 
-
-            <!-- POPUP TAB 1 -->
-
             <button
-                class="tab-button"
+                class="tab"
                 type="button"
-                data-popup="popupOne"
+                data-open="infoModal"
             >
                 INFO
             </button>
 
-
-            <!-- POPUP TAB 2 -->
-
             <button
-                class="tab-button"
+                class="tab"
                 type="button"
-                data-popup="popupTwo"
+                data-open="serverModal"
             >
                 SERVER
             </button>
 
-
-            <!-- POPUP TAB 3 -->
-
             <button
-                class="tab-button"
+                class="tab"
                 type="button"
-                data-popup="popupThree"
+                data-open="timesModal"
             >
                 TIMES
             </button>
 
-
-            <!-- NORMAL TAB -->
-
-            <button
-                class="tab-button"
-                type="button"
-                data-scroll="bottom"
-            >
+            <button class="tab" type="button">
                 MORE
             </button>
-
 
         </nav>
 
     </header>
 
 
-    <!-- =========================================
-         MAIN PAGE
-    ========================================== -->
+    <!-- MAIN AREA -->
 
-    <main
-        class="hero"
-        id="home"
-    >
+    <main class="hero">
 
+        <section class="future-centre">
 
-        <!-- =====================================
-             FUTURE SUN AND GATE AREA
-
-             Later, the sun and heavenly gate
-             can be added inside this section.
-        ====================================== -->
-
-        <div class="centerpiece">
-
-
-            <div
-                class="future-art"
-                id="futureArt"
-            >
-
-                <!--
-
-                    FUTURE PIXEL-ART SUN
-
-                    FUTURE PIXEL-ART HEAVENLY GATE
-
-                    These will be added later.
-
-                -->
-
-            </div>
-
-
-            <!-- REQUIRED SCHOOL SERVER NOTICE -->
+            <!--
+                FUTURE PIXEL-ART SUN GOES HERE
+                FUTURE HEAVENLY GATE GOES HERE
+            -->
 
             <div class="school-notice">
-
                 *THIS IS A SCHOOL SERVER. THIS IS NOT PUBLIC*
-
             </div>
 
-
-        </div>
-
+        </section>
 
     </main>
 
 
-    <!-- =========================================
-         CLOUD LAYER - FRONT
-    ========================================== -->
+    <!-- FRONT CLOUDS -->
 
     <div
-        class="cloud-layer cloud-layer-front"
-        id="cloudLayerFront"
+        class="cloud-layer cloud-front-layer"
+        id="frontClouds"
     >
-
-        <img
-            src="../assets/cloud.png"
-            class="cloud cloud-front cloud-4"
-            alt=""
-        >
-
-        <img
-            src="../assets/cloud.png"
-            class="cloud cloud-front cloud-5"
-            alt=""
-        >
-
-        <img
-            src="../assets/cloud.png"
-            class="cloud cloud-front cloud-6"
-            alt=""
-        >
-
+        <img src="../assets/cloud.png" class="cloud cloud-4" alt="">
+        <img src="../assets/cloud.png" class="cloud cloud-5" alt="">
+        <img src="../assets/cloud.png" class="cloud cloud-6" alt="">
     </div>
 
 
-    <!-- =========================================
-         EMPTY LOWER SECTION
-
-         You can add more content later.
-    ========================================== -->
-
-    <section
-        class="lower-section"
-        id="bottom"
-    >
-
-        <!-- Add your own content here -->
-
-    </section>
-
-
-    <!-- =========================================
-         POPUP 1
-    ========================================== -->
+    <!-- INFO POPUP -->
 
     <div
-        class="popup-overlay"
-        id="popupOne"
+        class="modal"
+        id="infoModal"
     >
+        <div class="modal-card">
 
-        <div
-            class="popup-window"
-            role="dialog"
-            aria-modal="true"
-        >
+            <div class="modal-header">
 
-
-            <div class="popup-top">
-
-                <div class="popup-title">
-
+                <div class="modal-title">
                     INFO
-
                 </div>
 
-
                 <button
-                    class="popup-close"
+                    class="close"
                     type="button"
-                    aria-label="Close popup"
+                    aria-label="Close"
                 >
                     ×
                 </button>
 
             </div>
 
-
-            <div class="popup-content">
-
-                <!--
-                    WRITE YOUR OWN CONTENT HERE
-                -->
-
+            <div class="modal-content">
+                <!-- ADD YOUR OWN CONTENT HERE -->
             </div>
 
-
         </div>
-
     </div>
 
 
-    <!-- =========================================
-         POPUP 2
-    ========================================== -->
+    <!-- SERVER POPUP -->
 
     <div
-        class="popup-overlay"
-        id="popupTwo"
+        class="modal"
+        id="serverModal"
     >
+        <div class="modal-card">
 
-        <div
-            class="popup-window"
-            role="dialog"
-            aria-modal="true"
-        >
+            <div class="modal-header">
 
-
-            <div class="popup-top">
-
-                <div class="popup-title">
-
+                <div class="modal-title">
                     SERVER
-
                 </div>
 
-
                 <button
-                    class="popup-close"
+                    class="close"
                     type="button"
-                    aria-label="Close popup"
+                    aria-label="Close"
                 >
                     ×
                 </button>
 
             </div>
 
-
-            <div class="popup-content">
-
-                <!--
-                    WRITE YOUR OWN CONTENT HERE
-                -->
-
+            <div class="modal-content">
+                <!-- ADD YOUR OWN CONTENT HERE -->
             </div>
 
-
         </div>
-
     </div>
 
 
-    <!-- =========================================
-         POPUP 3
-    ========================================== -->
+    <!-- TIMES POPUP -->
 
     <div
-        class="popup-overlay"
-        id="popupThree"
+        class="modal"
+        id="timesModal"
     >
+        <div class="modal-card">
 
-        <div
-            class="popup-window"
-            role="dialog"
-            aria-modal="true"
-        >
+            <div class="modal-header">
 
-
-            <div class="popup-top">
-
-                <div class="popup-title">
-
+                <div class="modal-title">
                     TIMES
-
                 </div>
 
-
                 <button
-                    class="popup-close"
+                    class="close"
                     type="button"
-                    aria-label="Close popup"
+                    aria-label="Close"
                 >
                     ×
                 </button>
 
             </div>
 
-
-            <div class="popup-content">
-
-                <!--
-                    WRITE YOUR OWN CONTENT HERE
-                -->
-
+            <div class="modal-content">
+                <!-- ADD YOUR OWN CONTENT HERE -->
             </div>
 
-
         </div>
-
     </div>
 
 
-    <script src="script.js"></script>
+    <script>
+        /* =====================================================
+           MOUSE PARALLAX
+        ===================================================== */
+
+        const sky = document.getElementById("skyBackground");
+        const backClouds = document.getElementById("backClouds");
+        const frontClouds = document.getElementById("frontClouds");
+
+        document.addEventListener("mousemove", (event) => {
+
+            const x =
+                event.clientX / window.innerWidth - 0.5;
+
+            const y =
+                event.clientY / window.innerHeight - 0.5;
+
+
+            sky.style.transform =
+                `translate(${x * -14}px, ${y * -10}px)`;
+
+
+            backClouds.style.transform =
+                `translate(${x * -25}px, ${y * -18}px)`;
+
+
+            frontClouds.style.transform =
+                `translate(${x * -55}px, ${y * -32}px)`;
+
+        });
+
+
+        /* =====================================================
+           POPUPS
+        ===================================================== */
+
+        document
+            .querySelectorAll("[data-open]")
+            .forEach((button) => {
+
+                button.addEventListener("click", () => {
+
+                    const modal =
+                        document.getElementById(
+                            button.dataset.open
+                        );
+
+                    if (modal) {
+                        modal.classList.add("open");
+                    }
+
+                });
+
+            });
+
+
+        document
+            .querySelectorAll(".close")
+            .forEach((button) => {
+
+                button.addEventListener("click", () => {
+
+                    button
+                        .closest(".modal")
+                        .classList
+                        .remove("open");
+
+                });
+
+            });
+
+
+        document
+            .querySelectorAll(".modal")
+            .forEach((modal) => {
+
+                modal.addEventListener("click", (event) => {
+
+                    if (event.target === modal) {
+                        modal.classList.remove("open");
+                    }
+
+                });
+
+            });
+
+
+        document.addEventListener("keydown", (event) => {
+
+            if (event.key === "Escape") {
+
+                document
+                    .querySelectorAll(".modal")
+                    .forEach((modal) => {
+                        modal.classList.remove("open");
+                    });
+
+            }
+
+        });
+    </script>
 
 </body>
 </html>
